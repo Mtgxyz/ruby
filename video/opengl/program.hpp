@@ -4,9 +4,9 @@ auto OpenGLProgram::bind(OpenGL* instance, const Markup::Node& node, const strin
   modulo = glrModulo(node["modulo"].integer());
 
   string w = node["width"].text(), h = node["height"].text();
-  if(w.endsWith("%")) relativeWidth = real(w.trimRight("%", 1L)) / 100.0;
+  if(w.endsWith("%")) relativeWidth = toReal(w.trimRight("%", 1L)) / 100.0;
   else absoluteWidth = w.natural();
-  if(h.endsWith("%")) relativeHeight = real(h.trimRight("%", 1L)) / 100.0;
+  if(h.endsWith("%")) relativeHeight = toReal(h.trimRight("%", 1L)) / 100.0;
   else absoluteHeight = h.natural();
 
   format = glrFormat(node["format"].text());
@@ -72,7 +72,7 @@ auto OpenGLProgram::bind(OpenGL* instance, const Markup::Node& node, const strin
 
 //apply manifest settings to shader source #in tags
 auto OpenGLProgram::parse(OpenGL* instance, string& source) -> void {
-  lstring lines = source.split("\n");
+  auto lines = source.split("\n");
   for(auto& line : lines) {
     string s = line;
     if(auto position = s.find("//")) s.resize(position());  //strip comments
